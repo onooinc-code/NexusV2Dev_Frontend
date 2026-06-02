@@ -1,0 +1,60 @@
+import axios, { AxiosError, AxiosInstance, InternalAxiosRequestConfig, AxiosResponse } from 'axios';
+import { getToken } from '@/lib/auth';
+
+export interface ApiError extends Error {
+  code?: string;
+  status?: number;
+}
+
+// Create base client
+const apiClient: AxiosInstance = axios.create({
+  baseURL: (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000/api').replace(/\/$/, ''),
+  headers: {
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  },
+  timeout: 15000,
+});
+
+// Configure API base URL and interceptors (task 1.7.2 & 1.7.5)
+apiClient.interceptors.request.use(
+  (config: InternalAxiosRequestConfig) => {
+    // Setup authentication token handling
+    if (typeof window !== 'undefined') {
+      const token = getToken();
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+    }
+    return config;
+  },
+  (error: AxiosError) => {
+    return Promise.reject(error);
+  }
+);
+
+// Setup error handling middleware (task 1.7.3)
+apiClient.interceptors.response.use(
+  (response: AxiosResponse) => {
+    return response;
+  },
+  (error: AxiosError) => {
+    // Handle global errors here
+    if (error.response?.status === 401) {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('nexus_auth_token');
+        // Optional: redirect to login
+        // window.location.href = '/login';
+      }
+    }
+    const message = (error.response?.data as any)?.message || error.message || 'An unexpected error occurred';
+    const customError = new Error(message) as ApiError;
+    customError.status = error.response?.status;
+    customError.code = error.code;
+    customError.name = 'ApiError';
+    
+    return Promise.reject(customError);
+  }
+);
+
+export default apiClient;

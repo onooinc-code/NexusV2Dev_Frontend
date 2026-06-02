@@ -1,20 +1,40 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# NexusV2 Frontend
 
-# Run and deploy your AI Studio app
+This is the Next.js/React frontend repository for the NexusV2 project. It contains the complete user interface, component library, state management (Pinia/Zustand), and real-time WebSocket integrations (Echo/Reverb).
 
-This contains everything you need to run your app locally.
+## 🚀 Quick Start
 
-View your app in AI Studio: https://ai.studio/apps/0d25c23e-0a2f-4eff-9979-6c4798b28ae9
+### Prerequisites
+- Node.js (v18+)
+- npm or yarn
 
-## Run Locally
+### Installation
+```bash
+npm install
+# or
+yarn install
+```
 
-**Prerequisites:**  Node.js
+### Environment Setup
+Copy the example environment file and configure it:
+```bash
+cp .env.example .env.local
+```
+Ensure your `NEXT_PUBLIC_API_URL` points to the NexusV2 Backend API.
 
+### Development Server
+```bash
+npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## 🏗️ Architecture
+- **Framework**: Next.js (App Router)
+- **Styling**: Tailwind CSS + Custom Design System Tokens
+- **State**: Centralized store for Contacts, Workflows, and Agents
+- **Real-time**: Laravel Echo Integration
+
+## 🤖 AI Development Guidelines (Antigravity/Cursor)
+When asking AI to modify this repository:
+1. Always reference `Docs/FrontEnd/Architecture_Overview.md` for context.
+2. Ensure components are strictly typed with TypeScript.
+3. Keep logic decoupled from the UI components.

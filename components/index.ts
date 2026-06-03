@@ -49,6 +49,8 @@ export * from './NxResizablePanel';
 export * from './NxContextMenu';
 export * from './NxSkeleton';
 export * from './NxEmptyState';
+export * from './NxActivityHeatmap';
+export * from './NxEmptyState';
 export * from './NxStatusBadge';
 export * from './NxProviderDots';
 export * from './NxConnectionStatus';
